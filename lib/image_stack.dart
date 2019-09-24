@@ -6,20 +6,20 @@ import 'package:flutter/widgets.dart';
 /// Creates an image stack
 class ImageStack extends StatelessWidget {
   final List<String> imageList;
-  final double radius;
-  final int size;
-  final double width;
-  final Color borderColor;
+  final double imageRadius;
+  final int imageCount;
+  final double imageBorderWidth;
+  final Color imageBorderColor;
   final TextStyle extraCountTextStyle;
   final Color backgroundColor;
 
   ImageStack({
     Key key,
     @required this.imageList,
-    this.radius = 25,
-    this.size = 3,
-    this.width = 2,
-    this.borderColor = Colors.grey,
+    this.imageRadius = 25,
+    this.imageCount = 3,
+    this.imageBorderWidth = 2,
+    this.imageBorderColor = Colors.grey,
     this.extraCountTextStyle = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.w600,
@@ -27,14 +27,14 @@ class ImageStack extends StatelessWidget {
     this.backgroundColor = Colors.white,
   })  : assert(imageList != null && imageList.length != 0),
         assert(extraCountTextStyle != null),
-        assert(borderColor != null),
+        assert(imageBorderColor != null),
         assert(backgroundColor != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var images = List<Widget>();
-    int _size = size;
+    int _size = imageCount;
     images.add(circularImage(imageList[0]));
 
     if (imageList.length > 1) {
@@ -47,7 +47,7 @@ class ImageStack extends StatelessWidget {
           .map((index, image) => MapEntry(
                 index,
                 Positioned(
-                  right: 0.8 * radius * (index + 1.0),
+                  right: 0.8 * imageRadius * (index + 1.0),
                   child: circularImage(image),
                 ),
               ))
@@ -67,12 +67,13 @@ class ImageStack extends StatelessWidget {
             margin: EdgeInsets.only(left: 2),
             child: imageList.length - _size > 0
                 ? Container(
-                    constraints: BoxConstraints(minWidth: radius),
+                    constraints: BoxConstraints(minWidth: imageRadius),
                     padding: EdgeInsets.all(3),
-                    height: radius,
+                    height: imageRadius,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radius),
-                        border: Border.all(color: borderColor, width: width),
+                        borderRadius: BorderRadius.circular(imageRadius),
+                        border: Border.all(
+                            color: imageBorderColor, width: imageBorderWidth),
                         color: backgroundColor),
                     child: Center(
                       child: Text(
@@ -91,13 +92,13 @@ class ImageStack extends StatelessWidget {
 
   Widget circularImage(String imageUrl) {
     return Container(
-      height: radius,
-      width: radius,
+      height: imageRadius,
+      width: imageRadius,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white,
-          width: width,
+          width: imageBorderWidth,
         ),
       ),
       child: Container(

@@ -18,7 +18,7 @@ image_stack: <latest_version>
 import 'package:image_stack/image_stack.dart';
 
 class MyWidget extends StatelessWidget {
-  List<string> = ["image1Link", "image2Link", "image3Link", "image4Link"];
+  List<string> images = ["image1Link", "image2Link", "image3Link", "image4Link"];
 
   Widget build(BuildContext context) {
     return ImageStack(

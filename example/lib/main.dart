@@ -31,9 +31,9 @@ class MyApp extends StatelessWidget {
               children: <Widget>[
                 ImageStack(
                   imageList: images,
-                  radius: 50,
-                  size: 3,
-                  width: 3,
+                  imageRadius: 45,
+                  imageCount: 3,
+                  imageBorderWidth: 3,
                 ),
               ],
             ),
