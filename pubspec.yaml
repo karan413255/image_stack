@@ -1,7 +1,7 @@
 name: image_stack
 description: image_stack is a pure dart package for creating image stack in Flutter. This package give you a widget to easily create image stack for your need.
 version: 1.0.0
-author:
+authors:
   - Piyush Maurya <piyush.maurya@live.in>
   - Karan Shah <karanshah413255@gmail.com>
 homepage: https://github.com/karan413255/image_stack
