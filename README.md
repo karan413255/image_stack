@@ -18,14 +18,14 @@ image_stack: <latest_version>
 import 'package:image_stack/image_stack.dart';
 
 class MyWidget extends StatelessWidget {
-  List<string> images = ["image1Link", "image2Link", "image3Link", "image4Link"];
-
+  @override
   Widget build(BuildContext context) {
+    List<string> images = ["image1Link", "image2Link", "image3Link", "image4Link"];
     return ImageStack(
             imageList: images,
             imageRadius: 25, // Radius of each images
             imageCount: 3, // Maximum number of images to be shown in stack
-            imageBorderColor: 3, // Border width around the images
+            imageBorderWidth: 3, // Border width around the images
         );
   }
 }
