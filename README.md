@@ -6,7 +6,7 @@ UI created by this package is mainly found in profile picture stacks in so many 
 
 Pub Package: [image_stack](https://pub.dev/packages/image_stack)
 
-Medium Aricle: [Building profile image stack in Flutter](https://medium.com/@piyushmaurya23/building-profile-image-stack-in-flutter-2156102f65dd)
+Medium Article: [Building profile image stack in Flutter](https://medium.com/@piyushmaurya23/building-profile-image-stack-in-flutter-2156102f65dd)
 
 ## Installation
 
