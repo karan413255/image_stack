@@ -4,8 +4,9 @@
 
 UI created by this package is mainly found in profile picture stacks in so many apps but it can be used at any place where you feel it will look good.
 
-- Pub Package: [image_stack](https://pub.dev/packages/image_stack)
-- Medium Aricle: [Building profile image stack in Flutter](https://medium.com/@piyushmaurya23/building-profile-image-stack-in-flutter-2156102f65dd)
+Pub Package: [image_stack](https://pub.dev/packages/image_stack)
+
+Medium Aricle: [Building profile image stack in Flutter](https://medium.com/@piyushmaurya23/building-profile-image-stack-in-flutter-2156102f65dd)
 
 ## Installation
 
