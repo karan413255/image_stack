@@ -8,6 +8,7 @@ class ImageStack extends StatelessWidget {
   final List<String> imageList;
   final double imageRadius;
   final int imageCount;
+  final int totalCount;
   final double imageBorderWidth;
   final Color imageBorderColor;
   final TextStyle extraCountTextStyle;
@@ -18,6 +19,7 @@ class ImageStack extends StatelessWidget {
     @required this.imageList,
     this.imageRadius = 25,
     this.imageCount = 3,
+    this.totalCount,
     this.imageBorderWidth = 2,
     this.imageBorderColor = Colors.grey,
     this.extraCountTextStyle = const TextStyle(
@@ -25,17 +27,18 @@ class ImageStack extends StatelessWidget {
       fontWeight: FontWeight.w600,
     ),
     this.backgroundColor = Colors.white,
-  })  : assert(imageList != null && imageList.length != 0),
+  })  : assert(imageList != null),
         assert(extraCountTextStyle != null),
         assert(imageBorderColor != null),
         assert(backgroundColor != null),
+        assert(totalCount != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var images = List<Widget>();
     int _size = imageCount;
-    images.add(circularImage(imageList[0]));
+    if (imageList.isNotEmpty) images.add(circularImage(imageList[0]));
 
     if (imageList.length > 1) {
       if (imageList.length < _size) {
@@ -54,18 +57,19 @@ class ImageStack extends StatelessWidget {
           .values
           .toList());
     }
-
     return Container(
       child: Row(
         children: <Widget>[
-          Stack(
-            overflow: Overflow.visible,
-            textDirection: TextDirection.rtl,
-            children: images,
-          ),
+          images.isNotEmpty
+              ? Stack(
+                  overflow: Overflow.visible,
+                  textDirection: TextDirection.rtl,
+                  children: images,
+                )
+              : SizedBox(),
           Container(
-            margin: EdgeInsets.only(left: 2),
-            child: imageList.length - _size > 0
+            margin: EdgeInsets.only(left: 5),
+            child: totalCount - images.length > 0
                 ? Container(
                     constraints: BoxConstraints(minWidth: imageRadius),
                     padding: EdgeInsets.all(3),
@@ -77,7 +81,7 @@ class ImageStack extends StatelessWidget {
                         color: backgroundColor),
                     child: Center(
                       child: Text(
-                        "+" + (imageList.length - _size).toString(),
+                        (totalCount - images.length).toString(),
                         textAlign: TextAlign.center,
                         style: extraCountTextStyle,
                       ),

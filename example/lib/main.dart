@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
                   imageRadius: 45,
                   imageCount: 3,
                   imageBorderWidth: 3,
+                  totalCount: 4,
                 ),
               ],
             ),
