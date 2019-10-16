@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Better customisation
+
 ## 1.0.1
 
 - Example App updated
