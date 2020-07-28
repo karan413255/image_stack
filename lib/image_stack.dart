@@ -20,6 +20,7 @@ class ImageStack extends StatelessWidget {
   final double widgetBorderWidth;
   final Color widgetBorderColor;
   final List<ImageProvider> providers;
+  final bool showTotalCount;
 
   ImageStack({
     Key key,
@@ -30,6 +31,7 @@ class ImageStack extends StatelessWidget {
     this.imageBorderWidth = 2,
     this.imageBorderColor = Colors.grey,
     this.imageSource = ImageSource.Network,
+    this.showTotalCount = true,
     this.extraCountTextStyle = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.w600,
@@ -56,6 +58,7 @@ class ImageStack extends StatelessWidget {
     this.totalCount,
     this.widgetBorderWidth = 2,
     this.widgetBorderColor = Colors.grey,
+    this.showTotalCount = true,
     this.extraCountTextStyle = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.w600,
@@ -83,6 +86,7 @@ class ImageStack extends StatelessWidget {
     this.totalCount,
     this.imageBorderWidth = 2,
     this.imageBorderColor = Colors.grey,
+    this.showTotalCount = true,
     this.extraCountTextStyle = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.w600,
@@ -182,6 +186,7 @@ class ImageStack extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: 5),
             child: totalCount - images.length > 0
+                ? showTotalCount
                 ? Container(
               constraints: BoxConstraints(minWidth: imageRadius),
               padding: EdgeInsets.all(3),
@@ -189,7 +194,8 @@ class ImageStack extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(imageRadius),
                   border: Border.all(
-                      color: imageBorderColor, width: imageBorderWidth),
+                      color: imageBorderColor,
+                      width: imageBorderWidth),
                   color: backgroundColor),
               child: Center(
                 child: Text(
@@ -199,7 +205,8 @@ class ImageStack extends StatelessWidget {
                 ),
               ),
             )
-                : SizedBox(),
+                : SizedBox()
+                : Container(),
           ),
         ],
       ),
