@@ -13,6 +13,7 @@ class ImageStack extends StatelessWidget {
   final Color imageBorderColor;
   final TextStyle extraCountTextStyle;
   final Color backgroundColor;
+  final ImageSource imageSource;
 
   ImageStack({
     Key key,
@@ -22,6 +23,7 @@ class ImageStack extends StatelessWidget {
     this.totalCount,
     this.imageBorderWidth = 2,
     this.imageBorderColor = Colors.grey,
+    this.imageSource = ImageSource.Network,
     this.extraCountTextStyle = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.w600,
@@ -48,12 +50,12 @@ class ImageStack extends StatelessWidget {
           .sublist(1, _size)
           .asMap()
           .map((index, image) => MapEntry(
-                index,
-                Positioned(
-                  right: 0.8 * imageRadius * (index + 1.0),
-                  child: circularImage(image),
-                ),
-              ))
+        index,
+        Positioned(
+          right: 0.8 * imageRadius * (index + 1.0),
+          child: circularImage(image),
+        ),
+      ))
           .values
           .toList());
     }
@@ -62,31 +64,31 @@ class ImageStack extends StatelessWidget {
         children: <Widget>[
           images.isNotEmpty
               ? Stack(
-                  overflow: Overflow.visible,
-                  textDirection: TextDirection.rtl,
-                  children: images,
-                )
+            overflow: Overflow.visible,
+            textDirection: TextDirection.rtl,
+            children: images,
+          )
               : SizedBox(),
           Container(
             margin: EdgeInsets.only(left: 5),
             child: totalCount - images.length > 0
                 ? Container(
-                    constraints: BoxConstraints(minWidth: imageRadius),
-                    padding: EdgeInsets.all(3),
-                    height: imageRadius,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(imageRadius),
-                        border: Border.all(
-                            color: imageBorderColor, width: imageBorderWidth),
-                        color: backgroundColor),
-                    child: Center(
-                      child: Text(
-                        (totalCount - images.length).toString(),
-                        textAlign: TextAlign.center,
-                        style: extraCountTextStyle,
-                      ),
-                    ),
-                  )
+              constraints: BoxConstraints(minWidth: imageRadius),
+              padding: EdgeInsets.all(3),
+              height: imageRadius,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(imageRadius),
+                  border: Border.all(
+                      color: imageBorderColor, width: imageBorderWidth),
+                  color: backgroundColor),
+              child: Center(
+                child: Text(
+                  (totalCount - images.length).toString(),
+                  textAlign: TextAlign.center,
+                  style: extraCountTextStyle,
+                ),
+              ),
+            )
                 : SizedBox(),
           ),
         ],
@@ -110,11 +112,26 @@ class ImageStack extends StatelessWidget {
           shape: BoxShape.circle,
           color: Colors.white,
           image: DecorationImage(
-            image: NetworkImage(imageUrl),
+            image: imageProvider(imageUrl),
             fit: BoxFit.cover,
           ),
         ),
       ),
     );
   }
+
+  imageProvider(imageUrl) {
+    if(this.imageSource == ImageSource.Asset){
+      return AssetImage(imageUrl);
+    } else if(this.imageSource == ImageSource.File) {
+      return FileImage(imageUrl);
+    }
+    return NetworkImage(imageUrl);
+  }
+}
+
+enum ImageSource {
+  Asset,
+  Network,
+  File
 }
