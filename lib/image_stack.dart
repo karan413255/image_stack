@@ -14,6 +14,11 @@ class ImageStack extends StatelessWidget {
   final TextStyle extraCountTextStyle;
   final Color backgroundColor;
   final ImageSource imageSource;
+  final List<Widget> children;
+  final double widgetRadius;
+  final int widgetCount;
+  final double widgetBorderWidth;
+  final Color widgetBorderColor;
 
   ImageStack({
     Key key,
@@ -29,18 +34,55 @@ class ImageStack extends StatelessWidget {
       fontWeight: FontWeight.w600,
     ),
     this.backgroundColor = Colors.white,
-  })  : assert(imageList != null),
+  })  : children = [],
+        widgetBorderColor = null,
+        widgetBorderWidth = null,
+        widgetCount = null,
+        widgetRadius = null,
+        assert(imageList != null),
         assert(extraCountTextStyle != null),
         assert(imageBorderColor != null),
         assert(backgroundColor != null),
         assert(totalCount != null),
         super(key: key);
 
+  ImageStack.widgets({
+    Key key,
+    @required this.children,
+    this.widgetRadius = 25,
+    this.widgetCount = 3,
+    this.totalCount,
+    this.widgetBorderWidth = 2,
+    this.widgetBorderColor = Colors.grey,
+    this.extraCountTextStyle = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+    ),
+    this.backgroundColor = Colors.white,
+  })  : imageList = [],
+        imageBorderColor = null,
+        imageBorderWidth = null,
+        imageCount = null,
+        imageRadius=null,
+        imageSource=null,
+        assert(children != null),
+        assert(extraCountTextStyle != null),
+        assert(widgetBorderColor != null),
+        assert(backgroundColor != null),
+        assert(totalCount != null),
+        super(key: key);
+
+
+
   @override
   Widget build(BuildContext context) {
     var images = List<Widget>();
-    int _size = imageCount;
-    if (imageList.isNotEmpty) images.add(circularImage(imageList[0]));
+    int _size = children.length > 0 ? widgetCount : imageCount;
+    if (imageList.isNotEmpty) {
+      images.add(circularImage(imageList[0]));
+    } else if(children.isNotEmpty){
+      images.add(circularWidget(children[0]));
+    }
 
     if (imageList.length > 1) {
       if (imageList.length < _size) {
@@ -54,6 +96,23 @@ class ImageStack extends StatelessWidget {
         Positioned(
           right: 0.8 * imageRadius * (index + 1.0),
           child: circularImage(image),
+        ),
+      ))
+          .values
+          .toList());
+    }
+    if (children.length > 1) {
+      if (children.length < _size) {
+        _size = children.length;
+      }
+      images.addAll(children
+          .sublist(1, _size)
+          .asMap()
+          .map((index, widget) => MapEntry(
+        index,
+        Positioned(
+          right: 0.8 * widgetRadius * (index + 1.0),
+          child: circularWidget(widget),
         ),
       ))
           .values
@@ -96,6 +155,25 @@ class ImageStack extends StatelessWidget {
     );
   }
 
+  circularWidget(Widget widget) {
+    return Container(
+      height: widgetRadius,
+      width: widgetRadius,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: backgroundColor,
+        border: Border.all(
+          color: widgetBorderColor,
+          width: widgetBorderWidth,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(widgetRadius),
+        child: widget,
+      ),
+    );
+  }
+
   Widget circularImage(String imageUrl) {
     return Container(
       height: imageRadius,
@@ -121,17 +199,13 @@ class ImageStack extends StatelessWidget {
   }
 
   imageProvider(imageUrl) {
-    if(this.imageSource == ImageSource.Asset){
+    if (this.imageSource == ImageSource.Asset) {
       return AssetImage(imageUrl);
-    } else if(this.imageSource == ImageSource.File) {
+    } else if (this.imageSource == ImageSource.File) {
       return FileImage(imageUrl);
     }
     return NetworkImage(imageUrl);
   }
 }
 
-enum ImageSource {
-  Asset,
-  Network,
-  File
-}
+enum ImageSource { Asset, Network, File }
