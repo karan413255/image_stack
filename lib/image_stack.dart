@@ -19,6 +19,7 @@ class ImageStack extends StatelessWidget {
   final int widgetCount;
   final double widgetBorderWidth;
   final Color widgetBorderColor;
+  final List<ImageProvider> providers;
 
   ImageStack({
     Key key,
@@ -35,6 +36,7 @@ class ImageStack extends StatelessWidget {
     ),
     this.backgroundColor = Colors.white,
   })  : children = [],
+        providers = [],
         widgetBorderColor = null,
         widgetBorderWidth = null,
         widgetCount = null,
@@ -60,11 +62,12 @@ class ImageStack extends StatelessWidget {
     ),
     this.backgroundColor = Colors.white,
   })  : imageList = [],
+        providers = [],
         imageBorderColor = null,
         imageBorderWidth = null,
         imageCount = null,
-        imageRadius=null,
-        imageSource=null,
+        imageRadius = null,
+        imageSource = null,
         assert(children != null),
         assert(extraCountTextStyle != null),
         assert(widgetBorderColor != null),
@@ -72,16 +75,45 @@ class ImageStack extends StatelessWidget {
         assert(totalCount != null),
         super(key: key);
 
-
+  ImageStack.providers({
+    Key key,
+    @required this.providers,
+    this.imageRadius = 25,
+    this.imageCount = 3,
+    this.totalCount,
+    this.imageBorderWidth = 2,
+    this.imageBorderColor = Colors.grey,
+    this.extraCountTextStyle = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+    ),
+    this.backgroundColor = Colors.white,
+  })  : imageList = [],
+        children = [],
+        widgetBorderColor = null,
+        widgetBorderWidth = null,
+        widgetCount = null,
+        widgetRadius = null,
+        imageSource = null,
+        assert(providers != null),
+        assert(extraCountTextStyle != null),
+        assert(imageBorderColor != null),
+        assert(backgroundColor != null),
+        assert(totalCount != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var images = List<Widget>();
+    var widgets = List<Widget>();
+    var providersImages = List<Widget>();
     int _size = children.length > 0 ? widgetCount : imageCount;
     if (imageList.isNotEmpty) {
       images.add(circularImage(imageList[0]));
-    } else if(children.isNotEmpty){
-      images.add(circularWidget(children[0]));
+    } else if (children.isNotEmpty) {
+      widgets.add(circularWidget(children[0]));
+    } else if (providers.isNotEmpty) {
+      providersImages.add(circularProviders(providers[0]));
     }
 
     if (imageList.length > 1) {
@@ -105,7 +137,7 @@ class ImageStack extends StatelessWidget {
       if (children.length < _size) {
         _size = children.length;
       }
-      images.addAll(children
+      widgets.addAll(children
           .sublist(1, _size)
           .asMap()
           .map((index, widget) => MapEntry(
@@ -118,14 +150,33 @@ class ImageStack extends StatelessWidget {
           .values
           .toList());
     }
+    if (providers.length > 1) {
+      if (providers.length < _size) {
+        _size = providers.length;
+      }
+      providersImages.addAll(providers
+          .sublist(1, _size)
+          .asMap()
+          .map((index, data) => MapEntry(
+        index,
+        Positioned(
+          right: 0.8 * imageRadius * (index + 1.0),
+          child: circularProviders(data),
+        ),
+      ))
+          .values
+          .toList());
+    }
     return Container(
       child: Row(
         children: <Widget>[
-          images.isNotEmpty
+          images.isNotEmpty || widgets.isNotEmpty || providersImages.isNotEmpty
               ? Stack(
             overflow: Overflow.visible,
             textDirection: TextDirection.rtl,
-            children: images,
+            children: children.length > 0
+                ? widgets
+                : providers.length > 0 ? providersImages : images,
           )
               : SizedBox(),
           Container(
@@ -191,6 +242,30 @@ class ImageStack extends StatelessWidget {
           color: Colors.white,
           image: DecorationImage(
             image: imageProvider(imageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget circularProviders(ImageProvider imageProvider) {
+    return Container(
+      height: imageRadius,
+      width: imageRadius,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.white,
+          width: imageBorderWidth,
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+          image: DecorationImage(
+            image: imageProvider,
             fit: BoxFit.cover,
           ),
         ),
