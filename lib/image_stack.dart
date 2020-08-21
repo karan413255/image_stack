@@ -128,12 +128,12 @@ class ImageStack extends StatelessWidget {
           .sublist(1, _size)
           .asMap()
           .map((index, image) => MapEntry(
-        index,
-        Positioned(
-          right: 0.8 * imageRadius * (index + 1.0),
-          child: circularImage(image),
-        ),
-      ))
+                index,
+                Positioned(
+                  right: 0.8 * imageRadius * (index + 1.0),
+                  child: circularImage(image),
+                ),
+              ))
           .values
           .toList());
     }
@@ -145,12 +145,12 @@ class ImageStack extends StatelessWidget {
           .sublist(1, _size)
           .asMap()
           .map((index, widget) => MapEntry(
-        index,
-        Positioned(
-          right: 0.8 * widgetRadius * (index + 1.0),
-          child: circularWidget(widget),
-        ),
-      ))
+                index,
+                Positioned(
+                  right: 0.8 * widgetRadius * (index + 1.0),
+                  child: circularWidget(widget),
+                ),
+              ))
           .values
           .toList());
     }
@@ -162,50 +162,53 @@ class ImageStack extends StatelessWidget {
           .sublist(1, _size)
           .asMap()
           .map((index, data) => MapEntry(
-        index,
-        Positioned(
-          right: 0.8 * imageRadius * (index + 1.0),
-          child: circularProviders(data),
-        ),
-      ))
+                index,
+                Positioned(
+                  right: 0.8 * imageRadius * (index + 1.0),
+                  child: circularProviders(data),
+                ),
+              ))
           .values
           .toList());
     }
+    int _renderedImageSize = images.length > 0
+        ? images.length
+        : children.length > 0 ? children.length : providersImages.length;
     return Container(
       child: Row(
         children: <Widget>[
           images.isNotEmpty || widgets.isNotEmpty || providersImages.isNotEmpty
               ? Stack(
-            overflow: Overflow.visible,
-            textDirection: TextDirection.rtl,
-            children: children.length > 0
-                ? widgets
-                : providers.length > 0 ? providersImages : images,
-          )
+                  overflow: Overflow.visible,
+                  textDirection: TextDirection.rtl,
+                  children: children.length > 0
+                      ? widgets
+                      : providers.length > 0 ? providersImages : images,
+                )
               : SizedBox(),
           Container(
             margin: EdgeInsets.only(left: 5),
-            child: totalCount - images.length > 0
+            child: totalCount - _renderedImageSize > 0
                 ? showTotalCount
-                ? Container(
-              constraints: BoxConstraints(minWidth: imageRadius),
-              padding: EdgeInsets.all(3),
-              height: imageRadius,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(imageRadius),
-                  border: Border.all(
-                      color: imageBorderColor,
-                      width: imageBorderWidth),
-                  color: backgroundColor),
-              child: Center(
-                child: Text(
-                  (totalCount - images.length).toString(),
-                  textAlign: TextAlign.center,
-                  style: extraCountTextStyle,
-                ),
-              ),
-            )
-                : SizedBox()
+                    ? Container(
+                        constraints: BoxConstraints(minWidth: imageRadius),
+                        padding: EdgeInsets.all(3),
+                        height: imageRadius,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(imageRadius),
+                            border: Border.all(
+                                color: imageBorderColor,
+                                width: imageBorderWidth),
+                            color: backgroundColor),
+                        child: Center(
+                          child: Text(
+                            (totalCount - images.length).toString(),
+                            textAlign: TextAlign.center,
+                            style: extraCountTextStyle,
+                          ),
+                        ),
+                      )
+                    : SizedBox()
                 : Container(),
           ),
         ],
