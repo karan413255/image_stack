@@ -27,6 +27,7 @@ class MyWidget extends StatelessWidget {
     List<string> images = ["image1Link", "image2Link", "image3Link", "image4Link"];
     return ImageStack(
             imageList: images,
+            totalCount: images.length // If larger than images.length, will show extra empty circle
             imageRadius: 25, // Radius of each images
             imageCount: 3, // Maximum number of images to be shown in stack
             imageBorderWidth: 3, // Border width around the images
