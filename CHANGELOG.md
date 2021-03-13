@@ -1,3 +1,7 @@
+## 2.0.0
+
+- Migrate package to null-safety
+
 ## 1.1.0
 
 - Better customisation
