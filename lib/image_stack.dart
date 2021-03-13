@@ -6,28 +6,28 @@ import 'package:flutter/widgets.dart';
 /// Creates an image stack
 class ImageStack extends StatelessWidget {
   final List<String> imageList;
-  final double imageRadius;
-  final int imageCount;
+  final double? imageRadius;
+  final int? imageCount;
   final int totalCount;
-  final double imageBorderWidth;
-  final Color imageBorderColor;
+  final double? imageBorderWidth;
+  final Color? imageBorderColor;
   final TextStyle extraCountTextStyle;
   final Color backgroundColor;
-  final ImageSource imageSource;
+  final ImageSource? imageSource;
   final List<Widget> children;
-  final double widgetRadius;
-  final int widgetCount;
-  final double widgetBorderWidth;
-  final Color widgetBorderColor;
+  final double? widgetRadius;
+  final int? widgetCount;
+  final double? widgetBorderWidth;
+  final Color? widgetBorderColor;
   final List<ImageProvider> providers;
   final bool showTotalCount;
 
   ImageStack({
-    Key key,
-    @required this.imageList,
+    Key? key,
+    required this.imageList,
     this.imageRadius = 25,
     this.imageCount = 3,
-    this.totalCount,
+    required this.totalCount,
     this.imageBorderWidth = 2,
     this.imageBorderColor = Colors.grey,
     this.imageSource = ImageSource.Network,
@@ -43,21 +43,16 @@ class ImageStack extends StatelessWidget {
         widgetBorderWidth = null,
         widgetCount = null,
         widgetRadius = null,
-        assert(imageList != null),
-        assert(extraCountTextStyle != null),
-        assert(imageBorderColor != null),
-        assert(backgroundColor != null),
-        assert(totalCount != null),
         super(key: key);
 
   ImageStack.widgets({
-    Key key,
-    @required this.children,
+    Key? key,
+    required this.children,
     this.widgetRadius = 25,
     this.widgetCount = 3,
-    this.totalCount,
+    required this.totalCount,
     this.widgetBorderWidth = 2,
-    this.widgetBorderColor = Colors.grey,
+    Color this.widgetBorderColor = Colors.grey,
     this.showTotalCount = true,
     this.extraCountTextStyle = const TextStyle(
       color: Colors.black,
@@ -71,19 +66,14 @@ class ImageStack extends StatelessWidget {
         imageCount = null,
         imageRadius = null,
         imageSource = null,
-        assert(children != null),
-        assert(extraCountTextStyle != null),
-        assert(widgetBorderColor != null),
-        assert(backgroundColor != null),
-        assert(totalCount != null),
         super(key: key);
 
   ImageStack.providers({
-    Key key,
-    @required this.providers,
+    Key? key,
+    required this.providers,
     this.imageRadius = 25,
     this.imageCount = 3,
-    this.totalCount,
+    required this.totalCount,
     this.imageBorderWidth = 2,
     this.imageBorderColor = Colors.grey,
     this.showTotalCount = true,
@@ -99,19 +89,14 @@ class ImageStack extends StatelessWidget {
         widgetCount = null,
         widgetRadius = null,
         imageSource = null,
-        assert(providers != null),
-        assert(extraCountTextStyle != null),
-        assert(imageBorderColor != null),
-        assert(backgroundColor != null),
-        assert(totalCount != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var images = List<Widget>();
-    var widgets = List<Widget>();
-    var providersImages = List<Widget>();
-    int _size = children.length > 0 ? widgetCount : imageCount;
+    var images = <Widget>[];
+    var widgets = <Widget>[];
+    var providersImages = <Widget>[];
+    int _size = children.length > 0 ? widgetCount! : imageCount!;
     if (imageList.isNotEmpty) {
       images.add(circularImage(imageList[0]));
     } else if (children.isNotEmpty) {
@@ -130,7 +115,7 @@ class ImageStack extends StatelessWidget {
           .map((index, image) => MapEntry(
                 index,
                 Positioned(
-                  right: 0.8 * imageRadius * (index + 1.0),
+                  right: 0.8 * imageRadius! * (index + 1.0),
                   child: circularImage(image),
                 ),
               ))
@@ -147,7 +132,7 @@ class ImageStack extends StatelessWidget {
           .map((index, widget) => MapEntry(
                 index,
                 Positioned(
-                  right: 0.8 * widgetRadius * (index + 1.0),
+                  right: 0.8 * widgetRadius! * (index + 1.0),
                   child: circularWidget(widget),
                 ),
               ))
@@ -164,7 +149,7 @@ class ImageStack extends StatelessWidget {
           .map((index, data) => MapEntry(
                 index,
                 Positioned(
-                  right: 0.8 * imageRadius * (index + 1.0),
+                  right: 0.8 * imageRadius! * (index + 1.0),
                   child: circularProviders(data),
                 ),
               ))
@@ -179,7 +164,7 @@ class ImageStack extends StatelessWidget {
         children: <Widget>[
           images.isNotEmpty || widgets.isNotEmpty || providersImages.isNotEmpty
               ? Stack(
-                  overflow: Overflow.visible,
+                  clipBehavior: Clip.none, 
                   textDirection: TextDirection.rtl,
                   children: children.length > 0
                       ? widgets
@@ -191,14 +176,14 @@ class ImageStack extends StatelessWidget {
             child: totalCount - _renderedImageSize > 0
                 ? showTotalCount
                     ? Container(
-                        constraints: BoxConstraints(minWidth: imageRadius),
+                        constraints: BoxConstraints(minWidth: imageRadius!),
                         padding: EdgeInsets.all(3),
                         height: imageRadius,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(imageRadius),
+                            borderRadius: BorderRadius.circular(imageRadius!),
                             border: Border.all(
-                                color: imageBorderColor,
-                                width: imageBorderWidth),
+                                color: imageBorderColor!,
+                                width: imageBorderWidth!),
                             color: backgroundColor),
                         child: Center(
                           child: Text(
@@ -224,12 +209,12 @@ class ImageStack extends StatelessWidget {
         shape: BoxShape.circle,
         color: backgroundColor,
         border: Border.all(
-          color: widgetBorderColor,
-          width: widgetBorderWidth,
+          color: widgetBorderColor!,
+          width: widgetBorderWidth!,
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(widgetRadius),
+        borderRadius: BorderRadius.circular(widgetRadius!),
         child: widget,
       ),
     );
@@ -243,7 +228,7 @@ class ImageStack extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white,
-          width: imageBorderWidth,
+          width: imageBorderWidth!,
         ),
       ),
       child: Container(
@@ -267,7 +252,7 @@ class ImageStack extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white,
-          width: imageBorderWidth,
+          width: imageBorderWidth!,
         ),
       ),
       child: Container(
