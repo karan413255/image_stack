@@ -1,12 +1,12 @@
 library image_stack;
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// Creates an array of circular images stacked over each other
 class ImageStack extends StatelessWidget {
-  List<Widget> _widgetList = [];
-
   /// List of image urls
   final List<String> imageList;
 
@@ -145,10 +145,11 @@ class ImageStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int _size = children.length > 0 ? widgetCount! : imageCount!;
     var items = List.from(imageList)..addAll(children)..addAll(providers);
-    _widgetList.addAll(items
-        .sublist(0, _size)
+    int size =
+        min(children.length > 0 ? widgetCount! : imageCount!, items.length);
+    var widgetList = items
+        .sublist(0, size)
         .asMap()
         .map((index, value) => MapEntry(
             index,
@@ -159,32 +160,34 @@ class ImageStack extends StatelessWidget {
         .values
         .toList()
         .reversed
-        .toList());
+        .toList();
 
     return Container(
       child: Row(
         children: <Widget>[
-          _widgetList.isNotEmpty
+          widgetList.isNotEmpty
               ? Stack(
                   clipBehavior: Clip.none,
-                  children: _widgetList,
+                  children: widgetList,
                 )
               : SizedBox(),
           Container(
-              child: showTotalCount && totalCount - _widgetList.length > 0
+              child: showTotalCount && totalCount - widgetList.length > 0
                   ? Container(
-                      constraints: BoxConstraints(minWidth: imageRadius!),
+                      constraints: BoxConstraints(
+                          minWidth: imageRadius! - imageBorderWidth!),
                       padding: EdgeInsets.all(3),
-                      height: imageRadius,
+                      height: (imageRadius! - imageBorderWidth!),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(imageRadius!),
+                          borderRadius: BorderRadius.circular(
+                              imageRadius! - imageBorderWidth!),
                           border: Border.all(
                               color: imageBorderColor!,
                               width: imageBorderWidth!),
                           color: backgroundColor),
                       child: Center(
                         child: Text(
-                          "+${totalCount - _widgetList.length}",
+                          "+${totalCount - widgetList.length}",
                           textAlign: TextAlign.center,
                           style: extraCountTextStyle,
                         ),
