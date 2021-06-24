@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 
 /// Creates an array of circular images stacked over each other
 class ImageStack extends StatelessWidget {
+  List<Widget> _widgetList = [];
+
   /// List of image urls
   final List<String> imageList;
 
@@ -32,9 +34,9 @@ class ImageStack extends StatelessWidget {
   final Color backgroundColor;
 
   /// Enum to define the image source.
-  /// 
+  ///
   /// Describes type of the image source being sent in [imageList]
-  /// 
+  ///
   /// Possible values:
   ///  * Asset
   ///  * Network
@@ -116,7 +118,7 @@ class ImageStack extends StatelessWidget {
         super(key: key);
 
   /// Creates an image stack by passing list of `ImageProvider`.
-  /// 
+  ///
   /// The [providers] and [totalCount] parameters are required.
   ImageStack.providers({
     Key? key,
@@ -143,91 +145,33 @@ class ImageStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var images = <Widget>[];
-    var widgets = <Widget>[];
-    var providersImages = <Widget>[];
     int _size = children.length > 0 ? widgetCount! : imageCount!;
-    if (imageList.isNotEmpty) {
-      images.add(circularImage(imageList[0]));
-    } else if (children.isNotEmpty) {
-      widgets.add(circularWidget(children[0]));
-    } else if (providers.isNotEmpty) {
-      providersImages.add(circularProviders(providers[0]));
-    }
+    var items = List.from(imageList)..addAll(children)..addAll(providers);
+    _widgetList.addAll(items
+        .sublist(0, _size)
+        .asMap()
+        .map((index, value) => MapEntry(
+            index,
+            Padding(
+              padding: EdgeInsets.only(left: 0.7 * imageRadius! * index),
+              child: circularItem(value),
+            )))
+        .values
+        .toList()
+        .reversed
+        .toList());
 
-    if (imageList.length > 1) {
-      if (imageList.length < _size) {
-        _size = imageList.length;
-      }
-      images.addAll(imageList
-          .sublist(1, _size)
-          .asMap()
-          .map((index, image) => MapEntry(
-                index,
-                Positioned(
-                  right: 0.8 * imageRadius! * (index + 1.0),
-                  child: circularImage(image),
-                ),
-              ))
-          .values
-          .toList());
-    }
-    if (children.length > 1) {
-      if (children.length < _size) {
-        _size = children.length;
-      }
-      widgets.addAll(children
-          .sublist(1, _size)
-          .asMap()
-          .map((index, widget) => MapEntry(
-                index,
-                Positioned(
-                  right: 0.8 * widgetRadius! * (index + 1.0),
-                  child: circularWidget(widget),
-                ),
-              ))
-          .values
-          .toList());
-    }
-    if (providers.length > 1) {
-      if (providers.length < _size) {
-        _size = providers.length;
-      }
-      providersImages.addAll(providers
-          .sublist(1, _size)
-          .asMap()
-          .map((index, data) => MapEntry(
-                index,
-                Positioned(
-                  right: 0.8 * imageRadius! * (index + 1.0),
-                  child: circularProviders(data),
-                ),
-              ))
-          .values
-          .toList());
-    }
-    int _renderedImageSize = images.length > 0
-        ? images.length
-        : children.length > 0
-            ? children.length
-            : providersImages.length;
     return Container(
       child: Row(
         children: <Widget>[
-          images.isNotEmpty || widgets.isNotEmpty || providersImages.isNotEmpty
+          _widgetList.isNotEmpty
               ? Stack(
                   clipBehavior: Clip.none,
-                  textDirection: TextDirection.rtl,
-                  children: children.length > 0
-                      ? widgets
-                      : providers.length > 0
-                          ? providersImages
-                          : images,
+                  children: _widgetList,
                 )
               : SizedBox(),
           Container(
-              margin: EdgeInsets.only(left: 5),
-              child: showTotalCount && totalCount - _renderedImageSize > 0
+              child: showTotalCount && totalCount - _widgetList.length > 0
                   ? Container(
                       constraints: BoxConstraints(minWidth: imageRadius!),
                       padding: EdgeInsets.all(3),
@@ -240,7 +184,7 @@ class ImageStack extends StatelessWidget {
                           color: backgroundColor),
                       child: Center(
                         child: Text(
-                          (totalCount - images.length).toString(),
+                          "+${totalCount - _widgetList.length}",
                           textAlign: TextAlign.center,
                           style: extraCountTextStyle,
                         ),
@@ -250,6 +194,17 @@ class ImageStack extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget circularItem(dynamic item) {
+    if (item is ImageProvider) {
+      return circularProviders(item);
+    } else if (item is Widget) {
+      return circularWidget(item);
+    } else if (item is String) {
+      return circularImage(item);
+    }
+    return Container();
   }
 
   circularWidget(Widget widget) {
