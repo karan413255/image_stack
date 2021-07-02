@@ -110,10 +110,10 @@ class ImageStack extends StatelessWidget {
     this.backgroundColor = Colors.white,
   })  : imageList = [],
         providers = [],
-        imageBorderColor = null,
-        imageBorderWidth = null,
-        imageCount = null,
-        imageRadius = null,
+        imageBorderColor = widgetBorderColor,
+        imageBorderWidth = widgetBorderWidth,
+        imageCount = widgetCount,
+        imageRadius = widgetRadius,
         imageSource = null,
         super(key: key);
 
@@ -235,15 +235,15 @@ class ImageStack extends StatelessWidget {
       width: imageRadius,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        color: backgroundColor,
         border: Border.all(
-          color: Colors.white,
+          color: imageBorderColor!,
           width: imageBorderWidth!,
         ),
       ),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white,
           image: DecorationImage(
             image: imageProvider(imageUrl),
             fit: BoxFit.cover,
@@ -259,15 +259,15 @@ class ImageStack extends StatelessWidget {
       width: imageRadius,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        color: backgroundColor,
         border: Border.all(
-          color: Colors.white,
+          color: imageBorderColor!,
           width: imageBorderWidth!,
         ),
       ),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white,
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,
