@@ -27,6 +27,9 @@ class ImageStack extends StatelessWidget {
   /// Optional field to set the color of circular image border
   final Color? imageBorderColor;
 
+  /// Optional field to set the color of circular extra count
+  final Color? extraCountBorderColor;
+
   /// The text style to apply if there is any extra count to be shown
   final TextStyle extraCountTextStyle;
 
@@ -82,6 +85,7 @@ class ImageStack extends StatelessWidget {
       color: Colors.black,
       fontWeight: FontWeight.w600,
     ),
+    this.extraCountBorderColor,
     this.backgroundColor = Colors.white,
   })  : children = [],
         providers = [],
@@ -107,6 +111,7 @@ class ImageStack extends StatelessWidget {
       color: Colors.black,
       fontWeight: FontWeight.w600,
     ),
+    this.extraCountBorderColor,
     this.backgroundColor = Colors.white,
   })  : imageList = [],
         providers = [],
@@ -133,6 +138,7 @@ class ImageStack extends StatelessWidget {
       color: Colors.black,
       fontWeight: FontWeight.w600,
     ),
+    this.extraCountBorderColor,
     this.backgroundColor = Colors.white,
   })  : imageList = [],
         children = [],
@@ -182,7 +188,7 @@ class ImageStack extends StatelessWidget {
                           borderRadius: BorderRadius.circular(
                               imageRadius! - imageBorderWidth!),
                           border: Border.all(
-                              color: imageBorderColor!,
+                              color: extraCountBorderColor ?? imageBorderColor!,
                               width: imageBorderWidth!),
                           color: backgroundColor),
                       child: Center(
