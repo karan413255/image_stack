@@ -1,3 +1,10 @@
+## 2.1.0
+- Added new optional field: extraCountBorderColor to set the color of circular extra count
+- Refactored internal package code
+- Migrate example app to v2 Android embedding
+
+This update was possible because of [Siarhei Alikhver](https://github.com/solikhver)
+
 ## 2.0.1
 
 - Add documentation to the package
