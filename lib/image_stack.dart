@@ -3,7 +3,6 @@ library image_stack;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// Creates an array of circular images stacked over each other
 class ImageStack extends StatelessWidget {
@@ -151,7 +150,9 @@ class ImageStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var items = List.from(imageList)..addAll(children)..addAll(providers);
+    var items = List.from(imageList)
+      ..addAll(children)
+      ..addAll(providers);
     int size =
         min(children.length > 0 ? widgetCount! : imageCount!, items.length);
     var widgetList = items

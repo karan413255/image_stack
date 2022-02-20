@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:image_stack/image_stack.dart';
 
 void main() => runApp(MyApp());

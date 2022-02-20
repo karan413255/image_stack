@@ -1,5 +1,5 @@
-name: example
-description: A new Flutter project.
+name: image_stack_demo
+description: This is an example app for image_stack package.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43

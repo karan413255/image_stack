@@ -1,3 +1,7 @@
+## 2.1.1
+- Improve pub static analysis
+- Add web & windows platform for launching example app
+
 ## 2.1.0
 - Added new optional field: extraCountBorderColor to set the color of circular extra count
 - Refactored internal package code
