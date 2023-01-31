@@ -161,7 +161,8 @@ class ImageStack extends StatelessWidget {
         .map((index, value) => MapEntry(
             index,
             Padding(
-              padding: EdgeInsets.only(left: 0.7 * imageRadius! * index),
+              padding:
+                  EdgeInsetsDirectional.only(start: 0.7 * imageRadius! * index),
               child: circularItem(value),
             )))
         .values
@@ -183,7 +184,7 @@ class ImageStack extends StatelessWidget {
                   ? Container(
                       constraints: BoxConstraints(
                           minWidth: imageRadius! - imageBorderWidth!),
-                      padding: EdgeInsets.all(3),
+                      padding: EdgeInsetsDirectional.all(3),
                       height: (imageRadius! - imageBorderWidth!),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
