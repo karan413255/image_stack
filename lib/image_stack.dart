@@ -67,26 +67,30 @@ class ImageStack extends StatelessWidget {
   /// To show the remaining count if the provided list size is less than [totalCount]
   final bool showTotalCount;
 
+  /// The order of arrangment of the provided list, defaults to `true`
+  final bool reversed;
+
   /// Creates a image stack widget.
   ///
   /// The [imageList] and [totalCount] parameters are required.
-  ImageStack({
-    Key? key,
-    required this.imageList,
-    this.imageRadius = 25,
-    this.imageCount = 3,
-    required this.totalCount,
-    this.imageBorderWidth = 2,
-    this.imageBorderColor = Colors.grey,
-    this.imageSource = ImageSource.Network,
-    this.showTotalCount = true,
-    this.extraCountTextStyle = const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
-    this.extraCountBorderColor,
-    this.backgroundColor = Colors.white,
-  })  : children = [],
+  ImageStack(
+      {Key? key,
+      required this.imageList,
+      this.imageRadius = 25,
+      this.imageCount = 3,
+      required this.totalCount,
+      this.imageBorderWidth = 2,
+      this.imageBorderColor = Colors.grey,
+      this.imageSource = ImageSource.Network,
+      this.showTotalCount = true,
+      this.extraCountTextStyle = const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+      ),
+      this.extraCountBorderColor,
+      this.backgroundColor = Colors.white,
+      this.reversed = true})
+      : children = [],
         providers = [],
         widgetBorderColor = null,
         widgetBorderWidth = null,
@@ -97,22 +101,23 @@ class ImageStack extends StatelessWidget {
   /// Creates a image stack widget by passing list of custom widgets.
   ///
   /// The [children] and [totalCount] parameters are required.
-  ImageStack.widgets({
-    Key? key,
-    required this.children,
-    this.widgetRadius = 25,
-    this.widgetCount = 3,
-    required this.totalCount,
-    this.widgetBorderWidth = 2,
-    Color this.widgetBorderColor = Colors.grey,
-    this.showTotalCount = true,
-    this.extraCountTextStyle = const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
-    this.extraCountBorderColor,
-    this.backgroundColor = Colors.white,
-  })  : imageList = [],
+  ImageStack.widgets(
+      {Key? key,
+      required this.children,
+      this.widgetRadius = 25,
+      this.widgetCount = 3,
+      required this.totalCount,
+      this.widgetBorderWidth = 2,
+      Color this.widgetBorderColor = Colors.grey,
+      this.showTotalCount = true,
+      this.extraCountTextStyle = const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+      ),
+      this.extraCountBorderColor,
+      this.backgroundColor = Colors.white,
+      this.reversed = true})
+      : imageList = [],
         providers = [],
         imageBorderColor = widgetBorderColor,
         imageBorderWidth = widgetBorderWidth,
@@ -124,22 +129,23 @@ class ImageStack extends StatelessWidget {
   /// Creates an image stack by passing list of `ImageProvider`.
   ///
   /// The [providers] and [totalCount] parameters are required.
-  ImageStack.providers({
-    Key? key,
-    required this.providers,
-    this.imageRadius = 25,
-    this.imageCount = 3,
-    required this.totalCount,
-    this.imageBorderWidth = 2,
-    this.imageBorderColor = Colors.grey,
-    this.showTotalCount = true,
-    this.extraCountTextStyle = const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
-    this.extraCountBorderColor,
-    this.backgroundColor = Colors.white,
-  })  : imageList = [],
+  ImageStack.providers(
+      {Key? key,
+      required this.providers,
+      this.imageRadius = 25,
+      this.imageCount = 3,
+      required this.totalCount,
+      this.imageBorderWidth = 2,
+      this.imageBorderColor = Colors.grey,
+      this.showTotalCount = true,
+      this.extraCountTextStyle = const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+      ),
+      this.extraCountBorderColor,
+      this.backgroundColor = Colors.white,
+      this.reversed = true})
+      : imageList = [],
         children = [],
         widgetBorderColor = null,
         widgetBorderWidth = null,
@@ -165,9 +171,11 @@ class ImageStack extends StatelessWidget {
               child: circularItem(value),
             )))
         .values
-        .toList()
-        .reversed
         .toList();
+
+    if (reversed) {
+      widgetList.reversed.toList();
+    }
 
     return Container(
       child: Row(
