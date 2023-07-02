@@ -61,6 +61,9 @@ class ImageStack extends StatelessWidget {
   /// Optional field to set the color of circular border when [children] is passed
   final Color? widgetBorderColor;
 
+  /// Optional field to set the box shadow for individual child when [children] is passed
+  final List<BoxShadow>? widgetBoxShadow;
+
   /// List of `ImageProvider`
   final List<ImageProvider> providers;
 
@@ -78,6 +81,7 @@ class ImageStack extends StatelessWidget {
     required this.totalCount,
     this.imageBorderWidth = 2,
     this.imageBorderColor = Colors.grey,
+    this.widgetBoxShadow,
     this.imageSource = ImageSource.Network,
     this.showTotalCount = true,
     this.extraCountTextStyle = const TextStyle(
@@ -105,6 +109,7 @@ class ImageStack extends StatelessWidget {
     required this.totalCount,
     this.widgetBorderWidth = 2,
     Color this.widgetBorderColor = Colors.grey,
+    this.widgetBoxShadow,
     this.showTotalCount = true,
     this.extraCountTextStyle = const TextStyle(
       color: Colors.black,
@@ -131,6 +136,7 @@ class ImageStack extends StatelessWidget {
     this.imageCount = 3,
     required this.totalCount,
     this.imageBorderWidth = 2,
+    this.widgetBoxShadow,
     this.imageBorderColor = Colors.grey,
     this.showTotalCount = true,
     this.extraCountTextStyle = const TextStyle(
@@ -228,6 +234,7 @@ class ImageStack extends StatelessWidget {
           color: widgetBorderColor!,
           width: widgetBorderWidth!,
         ),
+        boxShadow: widgetBoxShadow,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(widgetRadius!),
@@ -241,13 +248,13 @@ class ImageStack extends StatelessWidget {
       height: imageRadius,
       width: imageRadius,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-        border: Border.all(
-          color: imageBorderColor!,
-          width: imageBorderWidth!,
-        ),
-      ),
+          shape: BoxShape.circle,
+          color: backgroundColor,
+          border: Border.all(
+            color: imageBorderColor!,
+            width: imageBorderWidth!,
+          ),
+          boxShadow: widgetBoxShadow),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -265,13 +272,13 @@ class ImageStack extends StatelessWidget {
       height: imageRadius,
       width: imageRadius,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-        border: Border.all(
-          color: imageBorderColor!,
-          width: imageBorderWidth!,
-        ),
-      ),
+          shape: BoxShape.circle,
+          color: backgroundColor,
+          border: Border.all(
+            color: imageBorderColor!,
+            width: imageBorderWidth!,
+          ),
+          boxShadow: widgetBoxShadow),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
