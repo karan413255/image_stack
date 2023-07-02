@@ -62,7 +62,7 @@ class ImageStack extends StatelessWidget {
   final Color? widgetBorderColor;
 
   /// Optional field to set the box shadow for individual child when [children] is passed
-  final BoxShadow? widgetBoxShadow;
+  final List<BoxShadow>? widgetBoxShadow;
 
   /// List of `ImageProvider`
   final List<ImageProvider> providers;
@@ -234,7 +234,7 @@ class ImageStack extends StatelessWidget {
           color: widgetBorderColor!,
           width: widgetBorderWidth!,
         ),
-        boxShadow: [widgetBoxShadow ?? const BoxShadow()],
+        boxShadow: widgetBoxShadow,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(widgetRadius!),
@@ -254,7 +254,7 @@ class ImageStack extends StatelessWidget {
             color: imageBorderColor!,
             width: imageBorderWidth!,
           ),
-          boxShadow: [widgetBoxShadow ?? BoxShadow()]),
+          boxShadow: widgetBoxShadow),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -278,7 +278,7 @@ class ImageStack extends StatelessWidget {
             color: imageBorderColor!,
             width: imageBorderWidth!,
           ),
-          boxShadow: [widgetBoxShadow ?? const BoxShadow()]),
+          boxShadow: widgetBoxShadow),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
